@@ -46,6 +46,7 @@ import android.widget.RemoteViews;
 import com.android.calendar.R;
 import com.android.calendar.Utils;
 import com.android.calendar.alerts.AlertService.NotificationWrapper;
+import com.android.calendar.alerts.AlertService.ALERT_CHANNEL_ID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -289,6 +290,8 @@ public class AlertReceiver extends BroadcastReceiver {
         notificationBuilder.setSmallIcon(R.drawable.stat_notify_calendar);
         notificationBuilder.setContentIntent(clickIntent);
         notificationBuilder.setDeleteIntent(deleteIntent);
+        notificationBuilder.setChannelId(ALERT_CHANNEL_ID);
+
         if (doPopup) {
             notificationBuilder.setFullScreenIntent(createAlertActivityIntent(context), true);
         }
@@ -350,7 +353,7 @@ public class AlertReceiver extends BroadcastReceiver {
                         resources.getString(R.string.snooze_label), snoozeIntent);
                 numActions++;
             }
-            return notificationBuilder.getNotification();
+            return notificationBuilder.build();
 
         } else {
             // Old-style notification (pre-JB).  Use custom view with buttons to provide

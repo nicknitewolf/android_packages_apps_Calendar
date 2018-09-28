@@ -17,6 +17,7 @@
 package com.android.calendar.alerts;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.ContentResolver;
@@ -56,6 +57,10 @@ import java.util.TimeZone;
  * This service is used to handle calendar event reminders.
  */
 public class AlertService extends Service {
+
+    // Set channel ID
+    public static final String ALERT_CHANNEL_ID = "alert_channel_01";
+
     static final boolean DEBUG = true;
     private static final String TAG = "AlertService";
 
@@ -165,6 +170,11 @@ public class AlertService extends Service {
         }
 
         @Override
+        public void createNotificationChannel(NotificationChannel channel) {
+            mNm.createNotificationChannel(channel);
+        }
+
+        @Override
         public void notify(int id, NotificationWrapper nw) {
             mNm.notify(id, nw.mNotification);
         }
@@ -266,6 +276,11 @@ public class AlertService extends Service {
         ContentResolver cr = context.getContentResolver();
         NotificationMgr nm = new NotificationMgrWrapper(
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE));
+
+        String appName = context.getString(R.string.standalone_app_label);
+        NotificationChannel channel  = new NotificationChannel(ALERT_CHANNEL_ID, appName, NotificationManager.IMPORTANCE_HIGH);
+        nm.createNotificationChannel(channel);
+
         final long currentTime = System.currentTimeMillis();
         SharedPreferences prefs = GeneralPreferences.getSharedPreferences(context);
 
