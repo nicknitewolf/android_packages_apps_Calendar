@@ -38,6 +38,7 @@ import android.os.Process;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Attendees;
 import android.provider.CalendarContract.CalendarAlerts;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
@@ -1127,6 +1128,14 @@ public class AlertService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
+
+            Notification notification = new NotificationCompat.Builder(this, ALERT_CHANNEL_ID)
+                .setContentTitle("Event notifications")
+                .setSmallIcon(R.drawable.stat_notify_calendar)
+                .setShowWhen(false)
+                .build();
+            startForeground(1337, notification);
+
             Message msg = mServiceHandler.obtainMessage();
             msg.arg1 = startId;
             msg.obj = intent.getExtras();
