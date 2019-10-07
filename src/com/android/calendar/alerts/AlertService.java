@@ -61,6 +61,7 @@ public class AlertService extends Service {
 
     // Set channel ID
     public static final String ALERT_CHANNEL_ID = "alert_channel_01";
+    public static final String FOREGROUND_CHANNEL_ID = "foreground_channel_01";
 
     static final boolean DEBUG = true;
     private static final String TAG = "AlertService";
@@ -1129,7 +1130,7 @@ public class AlertService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
 
-            Notification notification = new NotificationCompat.Builder(this, ALERT_CHANNEL_ID)
+            Notification notification = new NotificationCompat.Builder(this, FOREGROUND_CHANNEL_ID)
                 .setContentTitle("Event notifications")
                 .setSmallIcon(R.drawable.stat_notify_calendar)
                 .setShowWhen(false)
